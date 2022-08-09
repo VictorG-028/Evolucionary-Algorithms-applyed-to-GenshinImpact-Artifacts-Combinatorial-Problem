@@ -178,7 +178,7 @@ def plot_best_samples():
 
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
 	plot_best_samples()
 	# plot_all_samples()
 

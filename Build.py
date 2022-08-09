@@ -1,6 +1,7 @@
 from Artifact import *
 
 
+
 class Sheet(dict):
     ATK: float
     ATK_Percentage: float
@@ -25,6 +26,8 @@ class Sheet(dict):
 
         for key in sheet.keys():
             self[key] = sheet[key]
+
+
 
 class Build(dict):
     flower: Artifact

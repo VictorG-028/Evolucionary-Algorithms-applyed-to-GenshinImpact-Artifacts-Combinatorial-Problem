@@ -143,29 +143,7 @@ def mutation(b: Build, bag_of: dict[str, np.ndarray], useless_substats: list[str
 
     return b
 
-    ### Versões anteriores da fução de mutação ###
-    # for gene_type in genes_types:
-    #     useless_stat_count = b[gene_type].count_useless_substats(useless_substats)
-    #     new_artifact = b[gene_type]
 
-    #     # Tenta escolher um artefato que contrubui significativamente para a build
-    #     while useless_stat_count > 2:
-    #         new_artifact = np.random.choice(bag_of[gene_type], size = 1, replace = False)[0]
-    #         useless_stat_count = new_artifact.count_useless_substats(useless_substats)
-
-    #     # b[random_type] = new_artifact
-    #     b[gene_type] = new_artifact
-
-    # random_type = np.random.choice(genes_types, size = 1, replace = False)[0]
-    # artifacts = bag_of[random_type]
-
-    # useless_stat_count = 3
-    # while useless_stat_count > 2:
-    #     new_artifact = np.random.choice(artifacts, size = 1, replace = False)[0]
-    #     useless_stat_count = new_artifact.count_useless_substats(useless_substats)
-
-    # b[gene_type] = new_artifact
-    #############################################
 
 """
 fitness -> Função fitness que será usada
@@ -192,12 +170,14 @@ def GA(fitness: Callable,
     artifacts = Artifact.read_database()
     population, bag_of_artifacts = create_population(artifacts, POP_SIZE)
 
-    generation_fitness = np.zeros(shape=[POP_SIZE])
     best_fitness: float = -np.inf
     best_individual: Build = None
     best_index: int = None
 
+    half_cut = POP_SIZE//2 # Metade do tamanho da população
+
     # Calcula o fitness da geração atual
+    generation_fitness = np.zeros(shape=[POP_SIZE])
     for i in np.arange(POP_SIZE):
         generation_fitness[i] = fitness(population[i])
 
@@ -207,12 +187,11 @@ def GA(fitness: Callable,
             best_index = i
 
 
-    half_cut = POP_SIZE//2
     generation_count = 0 # Controla a quantidade máxima de gerações
-    no_change_count = 0 # Controla a quantidade de gerações sem mudança
+    no_change_count = 0  # Controla a quantidade de gerações sem mudança
     logs: list[str] = [] # controla as informações de output
 
-    df = pd.DataFrame()
+    df = pd.DataFrame() # Guarda as informações de cada geração
     df["Cromossomes"] = population
     df["Fitness"] = generation_fitness
     df["Normalized_Fitness"] = np.zeros(shape=[POP_SIZE])
@@ -222,6 +201,7 @@ def GA(fitness: Callable,
     # Loop principal
     while True:
 
+        # Critérios de parada
         # print(generation_count)
         if not (best_fitness < target_fitness):
             stop_by = "Reach fitness target"
@@ -263,8 +243,8 @@ def GA(fitness: Callable,
         # Aplica mutação nos não selecionados pela roleta
         not_selected_indexes = np.where(selected_mask == False)[0]
 
-        
-        # selected_indexes = unique_indexes # Alternativa que auto ordena por fitness
+        # Forma pares com selecionados para aplicar crossover
+        # selected_indexes = unique_indexes # forma alternativa de preencher selected_indexes que auto ordena por fitness
         it = iter(selected_indexes)
         for i, j in zip(it, it):
             if np.random.rand(1) <= CROSSOVER_RATE:
@@ -278,6 +258,7 @@ def GA(fitness: Callable,
                 df.at[j, 'Cromossomes'] = new_pair[1]
 
         
+        # Forma pares com NÃO selecionados para aplicar mutação
         for i in not_selected_indexes:
             if np.random.rand(1) <= MUTATION_RATE:
                 cromossome = df["Cromossomes"][i]
@@ -297,7 +278,6 @@ def GA(fitness: Callable,
                 best_index = i
                 # print("reset chance count")
                 no_change_count = 0 # Reseta o contador de mudanças
-
         df["Fitness"] = generation_fitness # Atualiza o fitness
 
         generation_count += 1
@@ -313,6 +293,9 @@ def GA(fitness: Callable,
         'stop_by': stop_by,
         'logs': logs
     }
+
+
+
 
 print("ÍNÍCIO")
 if __name__ == '__main__':

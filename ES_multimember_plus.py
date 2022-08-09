@@ -206,12 +206,12 @@ def ES_multimember_plus(fitness: Callable,
     artifacts = Artifact.read_database()
     population, bag_of_artifacts = create_population(artifacts, POP_SIZE, MUTATION_RATE)
 
-    generation_fitness = np.zeros(shape=[POP_SIZE])
     best_fitness: float = -np.inf
     best_individual: Build = None
     best_index: int = None
 
     # Calcula o fitness da geração atual
+    generation_fitness = np.zeros(shape=[POP_SIZE])
     for i in np.arange(POP_SIZE):
         generation_fitness[i] = fitness(population[i])
 
@@ -221,16 +221,18 @@ def ES_multimember_plus(fitness: Callable,
             best_index = i
 
     generation_count = 0 # Controla a quantidade máxima de gerações
-    no_change_count = 0 # Controla a quantidade de gerações sem mudança
+    no_change_count = 0  # Controla a quantidade de gerações sem mudança
     logs: list[str] = [] # controla as informações de output
 
-    df = pd.DataFrame()
+    df = pd.DataFrame() # Guarda as informações de cada geração
     df["Cromossomes"] = population
     df["Fitness"] = generation_fitness
 
+
     # Loop principal
     while True:
-
+        
+        # Critérios de parada
         # print(generation_count)
         if not (best_fitness < target_fitness):
             stop_by = "Reach fitness target"
@@ -265,7 +267,7 @@ def ES_multimember_plus(fitness: Callable,
             new_cromossomes[i] = mutation(cromossome, bag_of_artifacts)
 
 
-        # Contem μ + λ cromossomos
+        # selection Contem μ + λ (atuais + novos) cromossomos 
         selection = pd.DataFrame()
         selection["Cromossomes"] = np.concatenate((df["Cromossomes"], np.array(new_cromossomes)), axis = None) 
 
@@ -278,6 +280,7 @@ def ES_multimember_plus(fitness: Callable,
                 best_fitness = generation_fitness[i]
                 best_individual = selection["Cromossomes"][i]
                 best_index = i
+                # print("reset chance count")
                 no_change_count = 0 # Reseta o contador de mudanças
         selection["Fitness"] = generation_fitness
 
@@ -285,7 +288,7 @@ def ES_multimember_plus(fitness: Callable,
         selection.sort_values(by='Fitness', ascending=False, inplace=True)
         selection.reset_index(drop=True, inplace=True)
 
-        # Atualiza geração de forma elitista
+        # Atualiza geração de forma elitista (joga fora a metade menos apta)
         df["Cromossomes"] = selection["Cromossomes"][0:MU]
         df["Fitness"] = selection["Fitness"][0:MU] # Guarda o fitness dos sobreviventes
 
@@ -302,6 +305,9 @@ def ES_multimember_plus(fitness: Callable,
         'stop_by': stop_by, 
         'logs': logs
     }
+
+
+
 
 print("ÍNÍCIO")
 if __name__ == '__main__':
