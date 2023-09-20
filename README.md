@@ -11,7 +11,7 @@
 <!-- O projeto testa cada algoritmo (exceto o greedy) várias vezes e compara os resultados com gráficos de fitness x generation. -->
 O projeto testa cada algoritmo várias vezes e compara os resultados com gráficos de fitness x generation.
 
-<img src="src/plot_imgs/best_sample_fitness_over_generations.png" alt="comparison chart" width="640" height="384">
+<img src="https://github.com/VictorG-028/Comp-Evolutiva-1VA/blob/d26cab570c78b914ea6db0b1da74c4ca59442712/plot_imgs/best_sample_fitness_over_generations.png" alt="comparison chart" width="640" height="384">
 
 ## Sobre o problema combinatorial
 
@@ -26,3 +26,12 @@ Foi utilizado uma curva gaussiana customizada no algoritmo Evolutionary Strategy
 - Numpy
 - Pandas
 - Matplotlib
+
+<!-- Lembrar caso precise rodar esse projeto:
+
+crair arquivo main ou run_algorithm.py) que chama funções definidas nos algoritmos
+exportar funções nos arquivos dos algoritmos para serem chamadas no main
+colocar opção de rodar como experimento/sample/trial ou como opção definitiva
+colocar as calsses base dentro de src
+colocar/virificar output de imagens para pasta plot_imgs fora de src
+ -->
