@@ -1,0 +1,22 @@
+ÍNÍCIO
+Tempo da busca: 257927.3440 segundos
+Traceback (most recent call last):
+  File "d:\Faculdade 2022.2\Computação Evolutiva\Projeto\src\Algorithms\greedy.py", line 120, in <module>
+    result = greedy(function)
+  File "C:\Users\victo\AppData\Local\Programs\Python\Python310\lib\contextlib.py", line 79, in 
+inner
+    return func(*args, **kwds)
+  File "d:\Faculdade 2022.2\Computação Evolutiva\Projeto\src\Algorithms\greedy.py", line 99, in greedy
+    current_fitnessess = vectorized_fitness(circlets_build)
+  File "C:\Users\victo\AppData\Local\Programs\Python\Python310\lib\site-packages\numpy\lib\function_base.py", line 2328, in __call__
+    return self._vectorize_call(func=func, args=vargs)
+  File "C:\Users\victo\AppData\Local\Programs\Python\Python310\lib\site-packages\numpy\lib\function_base.py", line 2411, in _vectorize_call
+    outputs = ufunc(*inputs)
+  File "d:\Faculdade 2022.2\Computação Evolutiva\Projeto\src\Algorithms\greedy.py", line 28, in fitness_1
+    Elemental_Skill_ATK = np.min([np.multiply(0.06256, Total_HP), 2858.04]) # facade coeficient = 0.063 ; true coeficient = 0.06256
+  File "<__array_function__ internals>", line 180, in amin
+  File "C:\Users\victo\AppData\Local\Programs\Python\Python310\lib\site-packages\numpy\core\fromnumeric.py", line 2918, in amin
+    return _wrapreduction(a, np.minimum, 'min', axis, None, out,
+  File "C:\Users\victo\AppData\Local\Programs\Python\Python310\lib\site-packages\numpy\core\fromnumeric.py", line 70, in _wrapreduction
+    passkwargs = {k: v for k, v in kwargs.items()
+KeyboardInterrupt
