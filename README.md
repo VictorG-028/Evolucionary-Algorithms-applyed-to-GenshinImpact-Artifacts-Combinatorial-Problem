@@ -11,7 +11,11 @@
 <!-- O projeto testa cada algoritmo (exceto o greedy) várias vezes e compara os resultados com gráficos de fitness x generation. -->
 O projeto testa cada algoritmo várias vezes e compara os resultados com gráficos de fitness x generation.
 
-<img src="https://github.com/VictorG-028/Comp-Evolutiva-1VA/blob/d26cab570c78b914ea6db0b1da74c4ca59442712/plot_imgs/best_sample_fitness_over_generations.png" alt="comparison chart" width="640" height="384">
+<img 
+ src="https://github.com/VictorG-028/Evolucionary-Algorithms-applyed-to-GenshinImpact-Artifacts-Combinatorial-Problem/blob/main/plot_imgs/best_sample_fitness_over_generations.png" 
+ alt="comparison chart" 
+ width="704" 
+ height="448">
 
 ## Sobre o problema combinatorial
 
